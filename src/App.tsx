@@ -1,35 +1,80 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+  useNavigate,
+} from "react-router-dom";
+import { ClerkProvider } from "@clerk/clerk-react";
+import { AuthProvider, useAppAuth } from "@/contexts/AuthContext";
+import { Layout } from "@/components/Layout";
+import { AuthPage } from "@/pages/AuthPage";
+import { DashboardPage } from "@/pages/DashboardPage";
+import { LoadingState } from "@/components/LoadingState";
+import { Toaster } from "@/components/ui/sonner";
 
-function App() {
-  const [count, setCount] = useState(0)
+const CLERK_PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+if (!CLERK_PUBLISHABLE_KEY) {
+  throw new Error("Missing VITE_CLERK_PUBLISHABLE_KEY environment variable");
 }
 
-export default App
+function AppRoutes() {
+  const { isLoaded, isSignedIn } = useAppAuth();
+
+  if (!isLoaded) return <LoadingState />;
+
+  if (!isSignedIn) {
+    return (
+      <Routes>
+        <Route path="/sign-in" element={<AuthPage />} />
+        <Route path="/sign-up" element={<AuthPage />} />
+        <Route path="*" element={<Navigate to="/sign-in" replace />} />
+      </Routes>
+    );
+  }
+
+  return (
+    <Layout>
+      <Routes>
+        <Route path="/" element={<DashboardPage />} />
+        <Route path="/upload" element={<DashboardPage />} />
+        <Route path="/uploads" element={<DashboardPage />} />
+        <Route path="/analytics" element={<DashboardPage />} />
+        <Route path="/search" element={<DashboardPage />} />
+        <Route path="/profile" element={<DashboardPage />} />
+        <Route path="/pricing" element={<DashboardPage />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </Layout>
+  );
+}
+
+function ClerkProviderWithRouter({ children }: { children: React.ReactNode }) {
+  const navigate = useNavigate();
+
+  return (
+    <ClerkProvider
+      publishableKey={CLERK_PUBLISHABLE_KEY}
+      routerPush={(to: string) => navigate(to)}
+      routerReplace={(to: string) => navigate(to, { replace: true })}
+    >
+      {children}
+    </ClerkProvider>
+  );
+}
+
+export function App() {
+  return (
+    <BrowserRouter>
+      <ClerkProviderWithRouter>
+        <AuthProvider>
+          <AppRoutes />
+          <Toaster position="top-right" />
+        </AuthProvider>
+      </ClerkProviderWithRouter>
+    </BrowserRouter>
+  );
+}
+
+export default App;
