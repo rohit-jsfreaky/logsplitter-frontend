@@ -1,3 +1,4 @@
+import { useMemo, useCallback } from "react";
 import type { ApiResponse } from "@/types";
 import { useAuth } from "@clerk/clerk-react";
 
@@ -99,17 +100,22 @@ function headersHasContentType(headers: HeadersInit): boolean {
 /**
  * Hook wrapper that injects Clerk token.
  * Uses optional env var VITE_CLERK_JWT_TEMPLATE if set.
+ * Returns a memoized API caller to prevent infinite loops in useEffect.
  */
 export function useApi() {
   const { getToken } = useAuth();
 
-  return {
-    call: async <T>(endpoint: string, options: RequestInit = {}) => {
+  const call = useCallback(
+    async <T>(endpoint: string, options: RequestInit = {}) => {
       const template = import.meta.env.VITE_CLERK_JWT_TEMPLATE as
         | string
         | undefined;
       const token = await getToken(template ? { template } : undefined);
       return apiCall<T>(endpoint, { ...options, token });
     },
-  };
+    [getToken]
+  );
+
+  // Memoize the return object to maintain referential equality
+  return useMemo(() => ({ call }), [call]);
 }

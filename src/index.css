@@ -120,7 +120,15 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
-body{
+/* Prevent double scrollbars */
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+body {
   font-family: "Inter", sans-serif;
 }
 
