@@ -11,6 +11,7 @@ import { Layout } from "@/components/Layout";
 import { AuthPage } from "@/pages/AuthPage";
 import { DashboardPage } from "@/pages/DashboardPage";
 import { ProfilePage } from "@/pages/ProfilePage";
+import { PricingPage } from "@/pages/PricingPage";
 import { LoadingState } from "@/components/LoadingState";
 import { Toaster } from "@/components/ui/sonner";
 
@@ -44,7 +45,7 @@ function AppRoutes() {
         <Route path="/analytics" element={<DashboardPage />} />
         <Route path="/search" element={<DashboardPage />} />
         <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/pricing" element={<DashboardPage />} />
+        <Route path="/pricing" element={<PricingPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Layout>
