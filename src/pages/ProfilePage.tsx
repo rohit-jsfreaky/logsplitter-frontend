@@ -15,6 +15,7 @@ import { useProfile } from "@/hooks/useProfile";
 import { useAppAuth } from "@/contexts/AuthContext";
 import { PreferencesForm } from "@/components/PreferencesForm";
 import { UsageDisplay } from "@/components/UsageDisplay";
+import { ApiKeysList } from "@/components/ApiKeysList";
 import { formatDate } from "@/lib/utils";
 import { FEATURES } from "@/types";
 import {
@@ -225,6 +226,9 @@ export function ProfilePage() {
         settings={profile.settings}
         onSave={handleSettingsSave}
       />
+
+      {/* API Keys */}
+      <ApiKeysList />
     </div>
   );
 }
