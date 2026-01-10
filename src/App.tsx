@@ -13,6 +13,7 @@ import { DashboardPage } from "@/pages/DashboardPage";
 import { ProfilePage } from "@/pages/ProfilePage";
 import { PricingPage } from "@/pages/PricingPage";
 import { UploadPage } from "@/pages/UploadPage";
+import { AnalyticsPage } from "@/pages/AnalyticsPage";
 import { LoadingState } from "@/components/LoadingState";
 import { Toaster } from "@/components/ui/sonner";
 
@@ -43,7 +44,7 @@ function AppRoutes() {
         <Route path="/" element={<DashboardPage />} />
         <Route path="/upload" element={<UploadPage />} />
         <Route path="/uploads" element={<DashboardPage />} />
-        <Route path="/analytics" element={<DashboardPage />} />
+        <Route path="/analytics" element={<AnalyticsPage />} />
         <Route path="/search" element={<DashboardPage />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/pricing" element={<PricingPage />} />
