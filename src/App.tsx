@@ -12,6 +12,7 @@ import { AuthPage } from "@/pages/AuthPage";
 import { DashboardPage } from "@/pages/DashboardPage";
 import { ProfilePage } from "@/pages/ProfilePage";
 import { PricingPage } from "@/pages/PricingPage";
+import { UploadPage } from "@/pages/UploadPage";
 import { LoadingState } from "@/components/LoadingState";
 import { Toaster } from "@/components/ui/sonner";
 
@@ -40,7 +41,7 @@ function AppRoutes() {
     <Layout>
       <Routes>
         <Route path="/" element={<DashboardPage />} />
-        <Route path="/upload" element={<DashboardPage />} />
+        <Route path="/upload" element={<UploadPage />} />
         <Route path="/uploads" element={<DashboardPage />} />
         <Route path="/analytics" element={<DashboardPage />} />
         <Route path="/search" element={<DashboardPage />} />

@@ -34,7 +34,8 @@ export const FEATURES = {
 } as const;
 
 export const LIMITS = {
-  MONTHLY_UPLOADS: "monthly-uploads",
+  MONTHLY_UPLOADS: "upload-logs",
+  MAX_FILE_SIZE_MB: "max-file-size-mb",
 } as const;
 
 // ============================================
