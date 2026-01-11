@@ -61,7 +61,12 @@ export function useSearch() {
   // Search function
   const search = useCallback(
     async (searchFilters: SearchFilters, offset = 0, limit = 20) => {
-      if (!searchFilters.query.trim() && !searchFilters.startDate) {
+      // Allow search if any filter is set: query, level, or date
+      if (
+        !searchFilters.query?.trim() &&
+        !searchFilters.startDate &&
+        !searchFilters.level
+      ) {
         setResults([]);
         setPagination(null);
         return;

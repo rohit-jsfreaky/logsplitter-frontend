@@ -143,7 +143,7 @@ export function DashboardPage() {
               .replace(/\b\w/g, (c) => c.toUpperCase())}{" "}
             Plan
           </Badge>
-          <Button variant="outline" size="sm" onClick={refetch}>
+          <Button variant="outline" size="sm" onClick={refetch} className="cursor-pointer">
             <RefreshCw className="h-4 w-4" />
           </Button>
         </div>
@@ -437,43 +437,85 @@ export function DashboardPage() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="flex items-end justify-between gap-2 h-24">
-              {uploadActivity
-                .slice(0, 7)
-                .reverse()
-                .map((day) => {
-                  const maxUploads = Math.max(
-                    ...uploadActivity.map((d) => d.uploads),
-                    1
-                  );
-                  const height = (day.uploads / maxUploads) * 100;
-                  return (
-                    <div
-                      key={day.date}
-                      className="flex-1 flex flex-col items-center gap-1"
-                    >
+            {/* Chart container with grid */}
+            <div className="relative h-48 w-full">
+              {/* Horizontal grid lines */}
+              <div className="absolute inset-0 flex flex-col justify-between pointer-events-none">
+                {[0, 1, 2, 3].map((i) => (
+                  <div
+                    key={i}
+                    className="border-b border-dashed border-muted-foreground/20"
+                  />
+                ))}
+              </div>
+
+              {/* Bars */}
+              <div className="relative h-full flex items-end justify-around gap-4 px-2">
+                {uploadActivity
+                  .slice(0, 7)
+                  .reverse()
+                  .map((day) => {
+                    const maxUploads = Math.max(
+                      ...uploadActivity.map((d) => d.uploads),
+                      1
+                    );
+                    const heightPercent = (day.uploads / maxUploads) * 100;
+                    const isToday =
+                      new Date(day.date).toDateString() ===
+                      new Date().toDateString();
+
+                    return (
                       <div
-                        className="w-full bg-muted rounded-t relative"
-                        style={{ height: "80px" }}
+                        key={day.date}
+                        className="group flex-1 max-w-16 flex flex-col items-center h-full"
                       >
-                        <div
-                          className="absolute bottom-0 w-full bg-primary rounded-t transition-all"
-                          style={{
-                            height: `${Math.max(
-                              height,
-                              day.uploads > 0 ? 10 : 0
-                            )}%`,
-                          }}
-                        />
+                        {/* Bar area */}
+                        <div className="flex-1 w-full flex items-end justify-center pb-6">
+                          <div
+                            className={`
+                              w-8 rounded-t-lg transition-all duration-500 ease-out cursor-pointer
+                              ${
+                                isToday
+                                  ? "bg-gradient-to-t from-blue-600 to-blue-400 shadow-lg shadow-blue-500/20"
+                                  : "bg-gradient-to-t from-blue-500/80 to-blue-400/60 hover:from-blue-600 hover:to-blue-500"
+                              }
+                            `}
+                            style={{
+                              height:
+                                day.uploads > 0
+                                  ? `${Math.max(heightPercent, 10)}%`
+                                  : "4px",
+                              minHeight: day.uploads > 0 ? "20px" : "4px",
+                            }}
+                            title={`${day.uploads} upload${
+                              day.uploads !== 1 ? "s" : ""
+                            }`}
+                          >
+                            {/* Upload count on top of bar */}
+                            {day.uploads > 0 && (
+                              <div className="absolute -top-6 left-1/2 -translate-x-1/2 text-xs font-semibold text-blue-600 dark:text-blue-400 opacity-0 group-hover:opacity-100 transition-opacity">
+                                {day.uploads}
+                              </div>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* Day label */}
+                        <span
+                          className={`text-xs font-medium ${
+                            isToday
+                              ? "text-blue-600 dark:text-blue-400"
+                              : "text-muted-foreground"
+                          }`}
+                        >
+                          {new Date(day.date).toLocaleDateString("en-US", {
+                            weekday: "short",
+                          })}
+                        </span>
                       </div>
-                      <span className="text-xs text-muted-foreground">
-                        {new Date(day.date).toLocaleDateString("en-US", {
-                          weekday: "short",
-                        })}
-                      </span>
-                    </div>
-                  );
-                })}
+                    );
+                  })}
+              </div>
             </div>
           </CardContent>
         </Card>

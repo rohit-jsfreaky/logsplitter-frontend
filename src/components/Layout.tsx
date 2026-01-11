@@ -100,19 +100,19 @@ export function Layout({ children }: LayoutProps) {
         )}
       >
         {/* Logo */}
-        <div className="flex h-16 items-center justify-between border-b px-4">
+        <div className="flex h-16 items-center justify-between border-b">
           <Link to="/" className="flex items-center">
             {/* Light mode logo */}
             <img
               src="/logsplitter__logo_dark.png"
               alt="LogSplitter"
-              className="h-8 w-auto dark:hidden"
+              className="h-32 w-auto dark:hidden"
             />
             {/* Dark mode logo */}
             <img
               src="/logsplitter__logo_light.png"
               alt="LogSplitter"
-              className="hidden h-8 w-auto dark:block"
+              className="hidden h-32 w-auto dark:block"
             />
           </Link>
           <Button
@@ -133,7 +133,7 @@ export function Layout({ children }: LayoutProps) {
               <Link key={item.path} to={item.path}>
                 <Button
                   variant={isActive ? "secondary" : "ghost"}
-                  className="w-full justify-start gap-2"
+                  className="w-full justify-start gap-2 cursor-pointer"
                 >
                   <item.icon className="h-4 w-4" />
                   {item.label}
@@ -166,7 +166,7 @@ export function Layout({ children }: LayoutProps) {
               <Link key={item.path} to={item.path}>
                 <Button
                   variant={isActive ? "secondary" : "ghost"}
-                  className="w-full justify-start gap-2"
+                  className="w-full justify-start gap-2 cursor-pointer"
                 >
                   <item.icon className="h-4 w-4" />
                   {item.label}
@@ -198,6 +198,7 @@ export function Layout({ children }: LayoutProps) {
               variant="ghost"
               size="icon"
               onClick={() => setDarkMode(!darkMode)}
+              className="cursor-pointer"
             >
               {darkMode ? (
                 <Sun className="h-5 w-5" />
