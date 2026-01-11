@@ -97,10 +97,15 @@ export function UploadsPage() {
             </p>
           </div>
           <div className="flex gap-2">
-            <Button variant="outline" size="sm" onClick={() => fetchUploads()}>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => fetchUploads()}
+              className="cursor-pointer"
+            >
               <RefreshCw className="h-4 w-4" />
             </Button>
-            <Button asChild>
+            <Button asChild className="cursor-pointer">
               <Link to="/upload">
                 <Upload className="mr-2 h-4 w-4" />
                 Upload New
@@ -119,6 +124,7 @@ export function UploadsPage() {
                 variant="outline"
                 size="sm"
                 onClick={() => fetchUploads()}
+                className="cursor-pointer"
               >
                 <RefreshCw className="mr-2 h-4 w-4" />
                 Retry
@@ -138,7 +144,7 @@ export function UploadsPage() {
               <p className="text-sm text-muted-foreground mb-4">
                 Upload your first log file to get started
               </p>
-              <Button asChild>
+              <Button asChild className="cursor-pointer">
                 <Link to="/upload">
                   <Upload className="mr-2 h-4 w-4" />
                   Upload Log File
@@ -203,7 +209,7 @@ export function UploadsPage() {
                       <Button
                         variant="ghost"
                         size="sm"
-                        className="text-destructive hover:text-destructive hover:bg-destructive/10"
+                        className="text-destructive hover:text-destructive hover:bg-destructive/10 cursor-pointer"
                         onClick={() => setUploadToDelete(upload.id)}
                         disabled={deleting === upload.id}
                       >
@@ -213,7 +219,12 @@ export function UploadsPage() {
                           <Trash2 className="h-4 w-4" />
                         )}
                       </Button>
-                      <Button variant="ghost" size="sm" asChild>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        asChild
+                        className="cursor-pointer"
+                      >
                         <Link to={`/uploads/${upload.id}`}>
                           <ArrowRight className="h-4 w-4" />
                         </Link>
@@ -229,7 +240,7 @@ export function UploadsPage() {
               <div className="pt-4">
                 <Button
                   variant="outline"
-                  className="w-full"
+                  className="w-full cursor-pointer"
                   onClick={loadMore}
                   disabled={loading}
                 >
@@ -269,11 +280,28 @@ export function UploadsPage() {
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setUploadToDelete(null)}>
+            <Button
+              variant="outline"
+              onClick={() => setUploadToDelete(null)}
+              className="cursor-pointer"
+              disabled={deleting !== null}
+            >
               Cancel
             </Button>
-            <Button variant="destructive" onClick={handleDelete}>
-              Delete Upload
+            <Button
+              variant="destructive"
+              onClick={handleDelete}
+              className="cursor-pointer"
+              disabled={deleting !== null}
+            >
+              {deleting !== null ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Deleting...
+                </>
+              ) : (
+                "Delete Upload"
+              )}
             </Button>
           </DialogFooter>
         </DialogContent>
