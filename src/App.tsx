@@ -13,8 +13,12 @@ import { DashboardPage } from "@/pages/DashboardPage";
 import { ProfilePage } from "@/pages/ProfilePage";
 import { PricingPage } from "@/pages/PricingPage";
 import { UploadPage } from "@/pages/UploadPage";
+import { UploadsPage } from "@/pages/UploadsPage";
+import { UploadDetailPage } from "@/pages/UploadDetailPage";
 import { AnalyticsPage } from "@/pages/AnalyticsPage";
 import { SearchPage } from "@/pages/SearchPage";
+import { WebhooksPage } from "@/pages/WebhooksPage";
+import { WebhookDetailPage } from "@/pages/WebhookDetailPage";
 import { LoadingState } from "@/components/LoadingState";
 import { Toaster } from "@/components/ui/sonner";
 
@@ -44,9 +48,12 @@ function AppRoutes() {
       <Routes>
         <Route path="/" element={<DashboardPage />} />
         <Route path="/upload" element={<UploadPage />} />
-        <Route path="/uploads" element={<DashboardPage />} />
+        <Route path="/uploads" element={<UploadsPage />} />
+        <Route path="/uploads/:id" element={<UploadDetailPage />} />
         <Route path="/analytics" element={<AnalyticsPage />} />
         <Route path="/search" element={<SearchPage />} />
+        <Route path="/webhooks" element={<WebhooksPage />} />
+        <Route path="/webhooks/:id" element={<WebhookDetailPage />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/pricing" element={<PricingPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />

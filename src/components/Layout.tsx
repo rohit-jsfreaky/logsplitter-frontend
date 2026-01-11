@@ -20,6 +20,7 @@ import {
   FolderOpen,
   BarChart3,
   Search,
+  Webhook,
   User,
   CreditCard,
   Moon,
@@ -39,6 +40,7 @@ const navItems = [
   { path: "/uploads", label: "Uploads", icon: FolderOpen },
   { path: "/analytics", label: "Analytics", icon: BarChart3 },
   { path: "/search", label: "Search", icon: Search },
+  { path: "/webhooks", label: "Webhooks", icon: Webhook },
 ];
 
 const bottomNavItems = [
